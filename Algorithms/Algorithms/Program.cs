@@ -22,7 +22,7 @@
                 {
                     return mid;
                 }
-                else if (nums[mid] > target)
+                else if (nums[mid] < target)
                 {
                     left = mid + 1;
                 }
