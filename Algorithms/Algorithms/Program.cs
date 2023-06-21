@@ -1,4 +1,6 @@
-﻿namespace Algorithms
+﻿using static Algorithms.Solution;
+
+namespace Algorithms
 {
     public class Solution
     {
@@ -45,44 +47,86 @@
         //Suppose you have n versions[1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
         //You are given an API bool isBadVersion(version) which returns whether version is bad.Implement a function to find the first bad version.
         //You should minimize the number of calls to the API.
-
-
-        public int FirstBadVersion(int n)
+        public class VersionControl
         {
-            int left = 1;
-            int right = n;
+            private int badVersion;
 
-            while (left < right)
+            public VersionControl(int bad)
+            {
+                badVersion = bad;
+            }
+
+            public bool IsBadVersion(int version)
+            {
+                return version >= badVersion;
+            }
+
+            public int FirstBadVersion(int n)
+            {
+                int left = 1;
+                int right = n;
+
+                while (left < right)
+                {
+                    int mid = left + (right - left) / 2;
+
+                    if (IsBadVersion(mid))
+                    {
+                        right = mid;
+                    }
+                    else
+                    {
+                        left = mid + 1;
+                    }
+                }
+
+                return left;
+            }
+        }
+
+
+
+
+        #endregion
+
+        #region SearchInsert
+
+        public int SearchInsert(int[] nums, int target)
+        {
+            int left = 0;
+            int right = nums.Length - 1;
+
+            while (left <= right)
             {
                 int mid = left + (right - left) / 2;
 
-                if (IsBadVersion(mid))
+                if (nums[mid] == target)
                 {
-                    right = mid;
+                    return mid;
                 }
-                else
+                else if (nums[mid] < target)
                 {
                     left = mid + 1;
                 }
+                else
+                {
+                    right = mid - 1;
+                }
             }
 
+            // The target is not found, return the index where it would be inserted
             return left;
-        }
-
-        private bool IsBadVersion(int mid)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
 
 
-
-}
-public class Program
+    }
+    public class Program
     {
         public static void Main()
         {
+
             #region BINARY SEARCH
 
             int[] nums = { 1, 3, 5, 7, 9 };
@@ -100,9 +144,21 @@ public class Program
             int n = 5;
             int bad = 4;
 
-            int firstBadVersion = solution.FirstBadVersion(n);
+            VersionControl versionControl = new VersionControl(bad);
+            int firstBadVersion = versionControl.FirstBadVersion(n);
 
             Console.WriteLine("First Bad Version: " + firstBadVersion);
+
+            #endregion
+
+            #region SearchInsert
+
+            int[] orderedNums = { 1, 3, 5, 6 };
+            int versionTarget = 5;
+
+            int index = solution.SearchInsert(orderedNums, versionTarget);
+
+            Console.WriteLine("Index: " + index);
 
             #endregion
         }
