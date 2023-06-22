@@ -1,4 +1,5 @@
-﻿using static Algorithms.Solution;
+﻿using System;
+using static Algorithms.Solution;
 
 namespace Algorithms
 {
@@ -148,11 +149,41 @@ namespace Algorithms
 
         #endregion
 
+        #region Rotate
+
+        //Given an integer array nums,
+        //rotate the array to the right by k steps, where k is non-negative.
+        public void Rotate(int[] nums, int k)
+        {
+            int n = nums.Length;
+
+            // Handle the case where k is larger than array length
+            k %= n;
+
+            // Create a temporary array to store the rotated elements
+            int[] temp = new int[k];
+
+            // Copy the last k elements from the original array to the temporary array
+            Array.Copy(nums, n - k, temp, 0, k);
+
+            // Shift the remaining elements of the original array to the right by k steps
+            for (int i = n - k - 1; i >= 0; i--)
+            {
+                nums[i + k] = nums[i];
+            }
+
+            // Copy the elements from the temporary array back to the original array
+            Array.Copy(temp, 0, nums, 0, k);
+        }
+
+        #endregion
+
     }
     public class Program
     {
         public static void Main()
         {
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>BINARY SEARCH>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
             #region BINARY SEARCH
 
@@ -166,6 +197,8 @@ namespace Algorithms
 
             #endregion
 
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>First Bad Version>>>>>>>>>>>>>>>>>>>>>>>>>");
+
             #region First Bad Version
 
             int n = 5;
@@ -178,6 +211,8 @@ namespace Algorithms
 
             #endregion
 
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>SearchInsert>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
             #region SearchInsert
 
             int[] orderedNums = { 1, 3, 5, 6 };
@@ -189,11 +224,30 @@ namespace Algorithms
 
             #endregion
 
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>SortedSquares>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+            #region SortedSquares
+
             int[] numsArr = { -4, -1, 0, 3, 10 };
 
             int[] sortedResult = solution.SortedSquares(numsArr);
 
             Console.WriteLine("Output: [" + string.Join(", ", sortedResult) + "]");
+
+            #endregion
+
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>Rotate>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+            #region Rotate
+
+            int[] noms = { 1, 2, 3, 4, 5, 6, 7 };
+            int k = 3;
+
+            solution.Rotate(noms, k);
+
+            Console.WriteLine("Output: [" + string.Join(", ", nums) + "]");
+
+            #endregion
         }
     }
 }
